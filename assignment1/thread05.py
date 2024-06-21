@@ -19,4 +19,6 @@ if __name__=="__main__":
     x.start()
     logging.info("Main  : wait for the thread to finish")
     #x.join()
+    #เมื่อมี x.join() thread1 และ all done จะสลับกัน
     logging.info("Main  : all done")    
+    
