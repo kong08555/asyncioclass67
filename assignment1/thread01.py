@@ -16,3 +16,5 @@ thread.start()
 #wait for the thread to finish
 print(f'{ctime()} Waiting for the thread...')
 thread.join()
+print(f'{ctime()} all done')
+thread.join()
