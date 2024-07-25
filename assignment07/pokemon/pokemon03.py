@@ -16,7 +16,7 @@ async def main():
     moves = [move ['move']['name'] for move in pokemon['moves']]
     
     #Open a new file to write the list of moves into.
-    async with aiofiles.open(f'{pokemonmove_directory}/{name}_moves.txt', mode='w') as f:
+    async with aiofiles.open(f'{pokemonmove_directory}/{name}_moves(pokemon-03).txt', mode='w') as f:
         await f.write('\n'.join(moves))
         
 asyncio.run(main())
