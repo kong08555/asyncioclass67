@@ -20,7 +20,10 @@ async def fry_egg(): #1
     
 async def main():
     start = time()
-    tasks = [make_coffee(), fry_egg()] # make task for insert function make_coffee & fry_egg
+    #tasks = [make_coffee(), fry_egg()] # make task for insert function make_coffee & fry_egg
+    #await asyncio.gather(*tasks)
+    tasks = [asyncio.create_task(make_coffee()),
+             asyncio.create_task(fry_egg())]
     await asyncio.gather(*tasks) 
     # run both task
     # await : wait function finish(wait result of asyncio.gather)
