@@ -1,8 +1,7 @@
-# example of using an asyncio queue without blocking
 from random import random
 import asyncio
 import time
- 
+
 # coroutine to generate work
 async def producer(queue):
     start_time = time.time()  # เริ่มจับเวลา
@@ -18,13 +17,15 @@ async def producer(queue):
         # add to the queue
         print(f"> Producer put {value}")
         await queue.put(value)
+        print(f"Queue size after put: {queue.qsize()}")  # แสดงขนาดของ queue หลังใส่ข้อมูล
     # send an all done signal
     await queue.put(None)
     print('Producer: Done')
     end_time = time.time()
-    print("---------------------Producer time---------------------")  
-    print(f"Producer execution time: {end_time - start_time} seconds")
-    print("-------------------------------------------------------")  
+    print("---------------------Producer time---------------------")
+    print(f"Producer execution time: {end_time - start_time:.2f} seconds")
+    print("-------------------------------------------------------")
+
 # coroutine to consume work
 async def consumer(queue):
     print('Consumer: Running')
@@ -33,6 +34,7 @@ async def consumer(queue):
         # get a unit of work without blocking
         try:
             item = queue.get_nowait()
+            print(f"Queue size before get: {queue.qsize()}")  # แสดงขนาดของ queue ก่อนดึงข้อมูล
         except asyncio.QueueEmpty:
             print('Consumer: got nothing, waiting a while...')
             await asyncio.sleep(0.1)
@@ -44,18 +46,18 @@ async def consumer(queue):
         print(f'\t> Consumer got {item}')
     # all done
     print('Consumer: Done')
- 
+
 # entry point coroutine
 async def main():
-    start_time = time.time() 
+    start_time = time.time()
     # create the shared queue
-    queue = asyncio.Queue(1)
+    queue = asyncio.Queue()
     # run the producer and consumers
     await asyncio.gather(producer(queue), consumer(queue))
     end_time = time.time()
-    print("---------------------time---------------------")  
-    print(f"Program execution time: {end_time - start_time} seconds")
-    print("----------------------------------------------")
- 
+    print("---------------------Total time-------------------------")
+    print(f"Program execution time: {end_time - start_time:.2f} seconds")
+    print("--------------------------------------------------------")
+
 # start the asyncio program
 asyncio.run(main())
