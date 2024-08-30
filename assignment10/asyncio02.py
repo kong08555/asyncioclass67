@@ -4,7 +4,7 @@ import time
 
 # coroutine to generate work
 async def producer(queue):
-    start_time = time.time()  # เริ่มจับเวลา
+    start_time = time.time()  
     print('Producer: Running')
     # generate work
     for i in range(10):
@@ -17,7 +17,7 @@ async def producer(queue):
         # add to the queue
         print(f"> Producer put {value}")
         await queue.put(value)
-        print(f"Queue size after put: {queue.qsize()}")  # แสดงขนาดของ queue หลังใส่ข้อมูล
+        print(f"Queue size after put: {queue.qsize()}")  
     # send an all done signal
     await queue.put(None)
     print('Producer: Done')
@@ -34,7 +34,7 @@ async def consumer(queue):
         # get a unit of work without blocking
         try:
             item = queue.get_nowait()
-            print(f"Queue size before get: {queue.qsize()}")  # แสดงขนาดของ queue ก่อนดึงข้อมูล
+            print(f"Queue size before get: {queue.qsize()}")  
         except asyncio.QueueEmpty:
             print('Consumer: got nothing, waiting a while...')
             await asyncio.sleep(0.1)
