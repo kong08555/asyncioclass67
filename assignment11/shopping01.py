@@ -85,7 +85,7 @@ async def customer_generation(queue: Queue, customers: int):
 async def main():
     customer_queue = Queue(5)
     customers_start_time = time.perf_counter()
-    customer_producer = asyncio.create_task(customer_generation(customer_queue, 20))
+    customer_producer = asyncio.create_task(customer_generation(customer_queue, 95))
     cashiers = [checkout_customer(customer_queue, i) for i in range(5)]
     
     await asyncio.gather(customer_producer, *cashiers)
@@ -100,10 +100,10 @@ if __name__ == "__main__":
 
 # +--------|------------|-------------|-----------------------|-------------------------    
 # Queue	   | Customer   | Cashier	  |  Time each Customer	  |  Time for all Customers
-# 2	       | 2	        | 2		      |                       |           
-# 2	       | 3	        | 2		      |                       |                                               		
-# 2	       | 4	        | 2		      |                       |           
-# 2	       | 10	        | 3		      |                       |           
-# 5	       | 10	        | 4			  |                       |               
-# 5	       | 20			|             |                       |  >= 8 s
+# 2	       | 2	        | 2		      |        2.02           |           2.02  
+# 2	       | 3	        | 2		      |        2.04           |           4.08                                  		
+# 2	       | 4	        | 2		      |        2.01-2.02      |           4.04
+# 2	       | 10	        | 3		      |        2.02-2.05      |           10.21
+# 5	       | 10	        | 4			  |        2.02           |           6.09       
+# 5	       | 95			| 5           |        2.02           |           38.63
 # +--------|------------|-------------|-----------------------|-------------------------    
