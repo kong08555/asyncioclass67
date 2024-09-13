@@ -16,6 +16,7 @@ class Customer:
 async def checkout_customer(queue: Queue, cashier_number: int):
     customer_count = 0  # Counter for the number of customers served.
     total_checkout_time = 0  # Total time spent by this cashier.
+    total_time = 0
 
     while not queue.empty():
         customer: Customer = await queue.get()
@@ -25,8 +26,11 @@ async def checkout_customer(queue: Queue, cashier_number: int):
         for product in customer.products:
             if cashier_number == 2:
                 adjusted_time = 0.1  # Cashier_2 ปรับ cashier 2 
+                total_checkout_time += 0.1
+                total_time += 0.1
             else:
                 adjusted_time = round(product.checkout_time + (0.1 * cashier_number), 2)
+                total_time += product.checkout_time + (0.1 * cashier_number)
 
             print(f"Cashier_{cashier_number} checking out Customer_{customer.customer_id}'s "
                   f"{product.product_name} in {adjusted_time} secs")
@@ -39,7 +43,7 @@ async def checkout_customer(queue: Queue, cashier_number: int):
         customer_count += 1
         total_checkout_time += time.perf_counter() - customer_start_time
 
-    return customer_count, total_checkout_time
+    return customer_count, total_time
 
 def generate_customer(customer_id: int) -> Customer:
     all_products = [Product('beef', 1),
@@ -75,7 +79,7 @@ async def main():
     
     print("---------------------- Cashier Performance ----------------------")
     for i, (customer_count, total_checkout_time) in enumerate(results[1:], start=0):
-        print(f"Cashier_{i} took {customer_count} customers in {round(total_checkout_time, ndigits=2)} secs.")
+        print(f"Cashier_{i} took {customer_count} customers in {round(total_checkout_time, ndigits=1)} secs.")
     print("---------------------------------------------------------------")
     print(f"The supermarket process finished {results[0]} customers "
           f"in {round(time.perf_counter() - customers_start_time, ndigits=2)} secs")
