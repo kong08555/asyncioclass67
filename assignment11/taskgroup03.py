@@ -62,7 +62,7 @@ async def customer_generation(queue: Queue, customers: int):
 
 async def main():
     CUSTOMER = 10
-    QUEUE = 3
+    QUEUE = 5
     CASHIER = 5
     customer_queue = Queue(QUEUE)
     customers_start_time = time.perf_counter()

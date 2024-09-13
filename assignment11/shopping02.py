@@ -39,6 +39,7 @@ async def checkout_customer(queue: Queue, cashier_number: int):
         customer_start_time = time.perf_counter()
         print(f"The Cashier_{cashier_number} "
               f"will checkout Customer_{customer.customer_id}")
+        await asyncio.sleep(0.001)
         
         for product in customer.products:
             print(f"The Cashier_{cashier_number} "
@@ -110,4 +111,3 @@ async def main():
 
 if __name__ == "__main__":
     asyncio.run(main())
-
