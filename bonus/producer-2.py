@@ -7,8 +7,8 @@ async def send_messages():
     await producer.start()
     try:
         while True:
-            await producer.send_and_wait("my_topic", b"hello! from apache kafka1!")
-            print("send : hello! from apache kafka!")
+            await producer.send_and_wait("my_topic", b"hello to produc2!")
+            print("send : hello to produc2!")
             await asyncio.sleep(3)
     finally:
         await producer.stop()
