@@ -3,7 +3,7 @@ import asyncio
 
 async def send_messages():
     producer = AIOKafkaProducer(
-        bootstrap_servers='localhost:9092')
+        bootstrap_servers='172.16.46.107:9092')
     await producer.start()
     try:
         while True:
